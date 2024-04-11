@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/transparent"
+    android:padding="@dimen/padding_dialogFragment"
+    >
+    <LinearLayout android:id="@+id/layout_identification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <EditText android:id="@+id/editText_idEnterprise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textView_value"
+            android:hint="@string/hint_et_id_enterprise"
+            android:autofillHints="username"
+            android:inputType="textPersonName" />
+
+        <EditText android:id="@+id/editText_userLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/textView_value"
+            android:hint="@string/hint_et_login_worker"
+            android:autofillHints="username"
+            android:inputType="textPersonName" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true"
+            app:hintEnabled="false"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_usrPassWorker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/textView_value"
+                android:maxLines="1"
+                android:inputType="textPassword"
+                android:hint="@string/hint_et_password"
+                android:autofillHints="password"
+                android:background="@color/transparent"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button android:id="@+id/btn_ok_identification_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:text="@string/btn_OK"
+            style="@style/button"
+            />
+    </LinearLayout>
+    <TextView android:id="@+id/tv_description_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/textView_smallText"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

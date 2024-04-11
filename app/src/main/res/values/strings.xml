@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name" translatable="false">meatKGB2_w</string>
+    <string name="Error_before_sendToServer" translatable="false">\"Ошибка до отправки сообщения: \"</string>
+    <string name="hour" translatable="false">hour</string>
+    <string name="worker_name_andrey" translatable="false">м.ц./повар - Андрей</string>
+    <string name="current_date" translatable="false">текущ.время</string>
+    <string name="_______" translatable="false">____</string>
+    <string name="_current" translatable="false">current</string>
+    <string name="_dbConnection" translatable="false">dbConnection</string>
+    <string name="_identificationUser" translatable="false">identificationUser</string>
+    <string name="_non" translatable="false">non</string>
+
+    <!--типы listViews    -->
+    <string name="typeListView_records_forShop_forPeriod" translatable="false">records_forShop_forPeriod</string>
+    <string name="typeListView_report_forShop_forPeriod" translatable="false">report_forShop_forPeriod</string>
+    <string name="typeListView_records_forProductList" translatable="false">records_forProductList</string>
+
+    <!--    типы стороны-->
+    <string name="typeOfSide_local" translatable="false">local</string>
+    <string name="typeOfSide_server" translatable="false">server</string>
+
+<!--    строки передаваемые между фрагментами-->
+    <string name="action_reset_access" translatable="false">reset access</string>
+    <string name="action_usr_access_ok" translatable="false">user access is ok</string>
+
+    <!--    час производства-->
+    <string-array name="time_of_produced">
+        <item>"01"</item>
+        <item>"02"</item>
+        <item>"03"</item>
+        <item>"04"</item>
+        <item>"05"</item>
+        <item>"06"</item>
+        <item>"07"</item>
+        <item>"08"</item>
+        <item>"09"</item>
+        <item>"10"</item>
+        <item>"11"</item>
+        <item>"12"</item>
+        <item>"13"</item>
+        <item>"14"</item>
+        <item>"15"</item>
+        <item>"16"</item>
+        <item>"17"</item>
+        <item>"18"</item>
+        <item>"19"</item>
+        <item>"20"</item>
+        <item>"21"</item>
+        <item>"22"</item>
+        <item>"23"</item>
+        <item>"00"</item>
+    </string-array>
+</resources>

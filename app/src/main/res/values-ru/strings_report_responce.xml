@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="report_default">Состояние соединения, не известно</string>
+    <string name="report_open">Соединение установлено</string>
+    <string name="report_close">Соединение закрыто</string>
+    <string name="report_notEstablished">Соединение не установлено</string>
+    <string name="report_sending">Отправка сообщения</string>
+    <string name="report_sent">Сообщение отправлено</string>
+
+    <string name="server_response_defaultValue">Сообщения нет</string>
+</resources>

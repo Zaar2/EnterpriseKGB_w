@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="subItem_myListView" parent="@android:style/Widget.ListView">
+        <item name="android:divider">@android:color/black</item>
+        <item name="android:dividerHeight">2dp</item>
+        <item name="android:textSize">@dimen/size_subItem_listView</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">@dimen/margin_listView</item>
+        <item name="android:paddingTop">@dimen/margin_listView</item>
+        <item name="android:paddingLeft">@dimen/margin_listView</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="label_subItem_myListView" parent="subItem_myListView">
+        <item name="android:textSize">@dimen/size_label_subItem_listView</item>
+    </style>
+    <style name="label_subItem_myListView_report" parent="subItem_myListView">
+        <item name="android:textSize">@dimen/size_label_subItem_listView_report</item>
+        <item name="android:paddingLeft">@dimen/size_padding_left_item_list_view</item>
+        <item name="android:paddingRight">@dimen/size_padding_left_item_list_view</item>
+    </style>
+    <style name="myCheckedTextView" parent="textView_value">
+        <item name="checkMarkTint">@color/black</item>
+    </style>
+</resources>

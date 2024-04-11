@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_in_frame_of_statistics">3dp</dimen> <!--  -->
+    <dimen name="margin_listView">5dip</dimen>
+    <dimen name="margin_dialogFragment">50dip</dimen>
+    <dimen name="padding_dialogFragment">30dip</dimen>
+    <dimen name="margin_editText_structEdit">15dip</dimen>
+    <dimen name="margin_button">2dip</dimen>
+    <dimen name="margin_button_small">1dip</dimen>
+    <dimen name="margin_recViewMain">20dip</dimen>
+    <dimen name="margin_imgLogo">5dip</dimen>
+    <dimen name="margin_fragment">15dip</dimen>
+    <dimen name="margin_layout_alert">25dip</dimen>
+
+    <dimen name="size_padding_small">2dp</dimen>
+    <dimen name="size_padding_bottom">5dp</dimen>
+    <dimen name="size_padding_top">5dp</dimen>
+    <dimen name="size_padding_left">5dp</dimen>
+    <dimen name="size_padding_right">10dp</dimen>
+    <dimen name="size_padding_left_item_list_view">5dp</dimen>
+    <dimen name="size_padding_top_recView">15dp</dimen>
+    <dimen name="size_padding_horizontal_fragment">30dp</dimen>
+    <dimen name="size_padding_bottom_for_fitsSystemWindows">15dp</dimen>
+</resources>

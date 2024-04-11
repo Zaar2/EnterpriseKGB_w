@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="spinner" parent="textView_value">
+        <item name="android:popupBackground">@drawable/background</item>
+    </style>
+    <style name="spinner_item" >
+        <item name="android:divider">@android:color/black</item>
+        <item name="android:dividerHeight">@dimen/size_divider_height</item>
+        <item name="android:textSize">@dimen/size_text_of_item_spinner</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/muller_bolt</item>
+        <item name="android:paddingBottom">@dimen/size_padding_bottom</item>
+        <item name="android:paddingTop">@dimen/size_padding_top</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">5dp</item>
+    </style>
+    <style name="subItem_mainMenu" parent="subItem_myListView">
+        <item name="android:textSize">@dimen/size_subItem_listView_mainMenu</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:paddingStart">@dimen/margin_listView</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="my_dialog_theme" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/button_background</item>                   <!--header background-->
+        <item name="android:windowBackground">@color/milk_background</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">@color/black</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/button_background</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/black</item>    <!--days of the week-->
+        <item name="android:buttonBarPositiveButtonStyle">@style/buttonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/buttonStyle</item>
+    </style>
+    <style name="editText_identification" parent="textView_value">
+        <item name="maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="checkBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/button_blocked</item>
+    </style>
+    <style name="tabs_textAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="my_tab" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabIndicatorColor">@color/button_blocked</item>
+        <item name="tabTextAppearance">@style/tabs_textAppearance</item>
+        <item name="tabTextColor">@color/black</item>
+        <item name="tabSelectedTextColor">@color/button_background</item>
+    </style>
+</resources>

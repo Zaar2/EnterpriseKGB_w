@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="report_default">Connection status, unknown</string>
+    <string name="report_open">Connected</string>
+    <string name="report_close">The connection is closed</string>
+    <string name="report_notEstablished">The connection is established</string>
+    <string name="report_sending">Sending a message</string>
+    <string name="report_sent">Message sent</string>
+
+    <string name="server_response_defaultValue">No message</string>
+</resources>

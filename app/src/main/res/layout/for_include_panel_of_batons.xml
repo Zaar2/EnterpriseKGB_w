@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <LinearLayout android:id="@+id/panelOfButtons_DB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
+        <Button android:id="@+id/btn_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/btn_add"
+            style="@style/button"
+            />
+        <Button android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/btn_del"
+            style="@style/button"
+            />
+        <Button android:id="@+id/btn_select"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/btn_updating"
+            style="@style/button"
+            />
+        <Button android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/btn_search"
+            style="@style/button"
+            />
+        <Button android:id="@+id/btn_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_edit"
+            style="@style/button"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+</LinearLayout>

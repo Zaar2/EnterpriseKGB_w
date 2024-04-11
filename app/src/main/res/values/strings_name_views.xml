@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_type_listView" translatable="false">type_listView</string>
+    <string name="_activity_main" translatable="false">main</string>
+    <string name="_activity_setting" translatable="false">setting</string>
+
+    <string name="btn_send">send</string>
+    <string name="btn_setting">Set</string>
+    <string name="btn_add" translatable="false">+</string>
+    <string name="btn_del" translatable="false">-</string>
+    <string name="btn_updating">upd.</string>
+    <string name="btn_edit">mod.</string>
+    <string name="btn_save">save</string>
+    <string name="btn_delete">del.</string>
+    <string name="btn_search">search</string>
+    <string name="btn_OK" translatable="false">OK</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <string name="label_id" translatable="false">id</string>
+    <string name="label_date">Date</string>
+    <string name="label_name_user">Worker</string>
+    <string name="label_product">Product</string>
+    <string name="label_count">Count</string>
+    <string name="label_time_produce">hour</string>
+
+    <string name="divide" translatable="false">\u0020-\u0020</string>
+    <string name="_update_name_product">update product list</string>
+    <string name="_settingOf_dbConnection">Setting database access</string>
+    <string name="_update_usrNames">Worker list</string>
+    <string name="reset_identification">Reset identification!</string>
+
+    <string name="hint_et_password">password</string>
+    <string name="hint_et_login_worker">login worker</string>
+    <string name="hint_et_id_enterprise">id enterprise</string>
+
+</resources>

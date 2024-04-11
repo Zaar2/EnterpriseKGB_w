@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_text_of_textView_label">20sp</dimen>
+    <dimen name="size_text_of_textView_value">20sp</dimen>
+    <dimen name="size_text_of_textView_label_activity">25sp</dimen>
+    <dimen name="size_text_of_item_spinner">20sp</dimen>
+    <dimen name="size_text_of_textView_reference">17sp</dimen>
+    <dimen name="size_text_of_textView_heading">25sp</dimen>
+    <dimen name="size_text_of_textView_subText">14sp</dimen>
+
+    <dimen name="size_divider_height">2dp</dimen>
+</resources>

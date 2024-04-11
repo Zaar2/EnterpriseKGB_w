@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/identificationFragment">
+
+    <fragment
+        android:id="@+id/identificationFragment"
+        android:name="com.zaar.meatkgb2_w.view.fragments.IdentificationFragment"
+        android:label="IdentificationFragment" >
+        <action
+            android:id="@+id/action_identificationFragment_to_workspaceFragment"
+            app:destination="@id/workspaceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/workspaceFragment"
+        android:name="com.zaar.meatkgb2_w.view.fragments.WorkspaceFragment"
+        android:label="fragment_workspace"
+        tools:layout="@layout/fragment_workspace" >
+        <action
+            android:id="@+id/action_workspaceFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.zaar.meatkgb2_w.view.fragments.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_workspaceFragment"
+            app:destination="@id/workspaceFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_identificationFragment"
+            app:destination="@id/identificationFragment" />
+    </fragment>
+</navigation>

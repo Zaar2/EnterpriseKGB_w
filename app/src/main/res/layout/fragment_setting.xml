@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/layout_settingActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.SettingFragment"
+    >
+    <LinearLayout android:id="@+id/layout_update_nameProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <Button android:id="@+id/btn_update_nameProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_update_name_product"
+            style="@style/button"
+            android:visibility="visible"
+            />
+        <FrameLayout android:id="@+id/fragment_settings_productsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+    <Button android:id="@+id/btn_resetIdentification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/size_padding_top"
+        style="@style/button"
+        android:text="@string/reset_identification"
+        />
+</RelativeLayout>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="btn_send">отправить</string>
+    <string name="btn_setting">Настр</string>
+    <string name="btn_updating">обновл.</string>
+    <string name="btn_edit">изм.</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_delete">Удалить</string>
+    <string name="btn_search">Поиск</string>
+    <string name="btn_cancel">Отмена</string>
+
+    <string name="label_date">Дата</string>
+    <string name="label_name_user">Работник</string>
+    <string name="label_product">П/ф</string>
+    <string name="label_count">Кол-во</string>
+    <string name="label_time_produce">Час</string>
+
+    <string name="_update_name_product">обновить список продукции</string>
+    <string name="_settingOf_dbConnection">Настройка доступа к БД</string>
+    <string name="_update_usrNames">Список работников</string>
+    <string name="reset_identification">Сброс доступа!</string>
+
+    <string name="hint_et_password">Пароль</string>
+    <string name="hint_et_login_worker">Логин</string>
+    <string name="hint_et_id_enterprise">id предприятия</string>
+</resources>
