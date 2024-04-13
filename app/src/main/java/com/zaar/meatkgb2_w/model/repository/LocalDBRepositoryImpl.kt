@@ -1,6 +1,7 @@
 package com.zaar.meatkgb2_w.model.repository
 
 import android.content.Context
+import com.zaar.meatkgb2_w.data.UserDescription
 import com.zaar.meatkgb2_w.model.local.api_room.database.Database
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.ProductDb
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.ShopDb
@@ -50,15 +51,43 @@ class LocalDBRepositoryImpl(
             else -1L
         } ?: -1
 
-    override suspend fun productInsertWithReplace(productsDb: List<ProductDb>): LongArray =
+    override suspend fun productsInsertWithReplace(productsDb: List<ProductDb>): LongArray =
         db?.productDao()?.insertWithReplace(productsDb)?.let {
             if (it.isNotEmpty()) it
             else longArrayOf()
         } ?: longArrayOf()
 
-    override suspend fun getUserWorkshop(): Long =
-        db?.usrDataDao()?.getWorkshop()?.let {
+    override suspend fun productsInsert(productsDb: List<ProductDb>): LongArray =
+        db?.productDao()?.insert(productsDb)?.let {
+            if (it.isNotEmpty()) it
+            else longArrayOf()
+        } ?: longArrayOf()
+
+    override suspend fun getIdWorkshop(): Long =
+        db?.usrDataDao()?.getIdWorkshop()?.let {
             if (it >= 0) it
             else -1L
         } ?: -1
+
+    override suspend fun getIdMoreWorkshop(): Long =
+        db?.usrDataDao()?.getIdMoreWorkshop()?.let {
+            if (it >= 0) it
+            else -1L
+        } ?: -1
+
+    override suspend fun getIdRoleByShop(): Long =
+        db?.usrDataDao()?.getRoleByShop()?.let {
+            if (it >= 0) it
+            else -1L
+        } ?: -1
+
+    override suspend fun getUserDescription(): UserDescription? =
+        db?.usrDataDao()?.getUserDescription()
+
+    override suspend fun getProduct(): List<String>? =
+        db?.productDao()?.getProduct()
+
+    override suspend fun getMeByProduct(productName: String): String {
+        return db?.productDao()?.getMeByProduct(productName) ?: ""
+    }
 }

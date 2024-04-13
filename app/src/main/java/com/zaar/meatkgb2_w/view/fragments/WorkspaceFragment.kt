@@ -1,10 +1,12 @@
 package com.zaar.meatkgb2_w.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.zaar.meatkgb2_w.R
 import com.zaar.meatkgb2_w.data.LogPass
 import com.zaar.meatkgb2_w.databinding.FragmentWorkspaceBinding
 import com.zaar.meatkgb2_w.utilities.types.tegsExchangingBetweenFragment
+import com.zaar.meatkgb2_w.utilities.view.ViewUtilities
 import com.zaar.meatkgb2_w.viewModel.vm.WorkspaceVM
 import com.zaar.meatkgb2_w.viewModel.factory.WorkspaceFactory
 import java.util.Calendar
@@ -40,6 +43,7 @@ class WorkspaceFragment: Fragment() {
         super.onViewStateRestored(savedInstanceState)
         initVariables()
         if (model != null) {
+            initObserveVM()
             initObserveView()
             initView()
         }
@@ -67,13 +71,41 @@ class WorkspaceFragment: Fragment() {
         }
     }
 
+    private fun initObserveVM() {
+        model?.ldUserDescription()?.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.textViewWorker.text =
+                    "${it.shopShortName}/${it.appointment} - ${it.userShortName}"
+            }
+        }
+        model?.ldProductsList()?.observe(viewLifecycleOwner) { items ->
+            if (items != null) {
+                binding.spinnerProduct.adapter = context?.let {
+                    fillingAdapterSpinner(
+                        it,
+                        R.layout.spiner_item_custom,
+                        items.toTypedArray()
+                    )
+                }
+            }
+            setMeByProductName()
+        }
+        model?.ldMeProduct()?.observe(viewLifecycleOwner) {
+            binding.textViewMe.text = it
+        }
+    }
+
     private fun initObserveView() {
         binding.btnSetting.setOnClickListener {
             toSetting()
         }
+        tvDateProducedOnClick(binding.textViewDateProduced)
+        spinnerOnItemSelectedProduct()
     }
 
     private fun initView() {
+        model?.initDescriptionUser()
+        model?.initItemsSpinnerProduct()
         binding.spinnerHour.adapter = context?.let {
             fillingAdapterSpinner(
                 it,
@@ -81,8 +113,8 @@ class WorkspaceFragment: Fragment() {
                 resources.getStringArray(R.array.time_of_produced)
             )
         }
-
         initDateDefaultForTextView(binding.textViewDateProduced, 0)
+
     }
 
     private fun fillingAdapterSpinner(
@@ -130,5 +162,43 @@ class WorkspaceFragment: Fragment() {
             "-0" + (num * (-1));
         } else
             num.toString();
+    }
+
+    private fun tvDateProducedOnClick(
+        textView: TextView
+    ) {
+        textView.setOnClickListener {
+            context?.apply {
+                ViewUtilities().callDatePicker(it as TextView, this)
+            }
+        }
+    }
+
+    private fun setMeByProductName(){
+        val productName = binding.spinnerProduct.selectedItem.toString()
+        model?.getProductMe(productName)
+    }
+
+    private fun setMeByProductName(productName: String){
+        model?.getProductMe(productName)
+    }
+
+    private fun spinnerOnItemSelectedProduct(){
+        binding.spinnerProduct.onItemSelectedListener=
+            object: AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val nameProduct = (view as TextView).text.toString()
+                    setMeByProductName(nameProduct)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    binding.textViewMe.text="non"
+                }
+            }
     }
 }

@@ -10,7 +10,7 @@ class UpdateWorkerUseCase(
     private val enterpriseId: String,
     private val myContext: Context
 ) {
-    suspend fun execute(): Boolean {
+    suspend fun executeWithReplace(): Boolean {
         val userApi = RemoteRepositoryImpl().getWorker(
             sessionId = sessionId,
             enterpriseID = enterpriseId

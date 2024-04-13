@@ -27,10 +27,10 @@ interface RecordDao: BaseDao<RecordDb> {
                 " rep.id as id," +
                 " rep.date_produced as date_produced," +
                 " usr.nameFull as full_name," +
-                " prod.nameProduct as product_name," +
+                " prod.product_name as product_name," +
                 " rep.count as count," +
                 " rep.time_produced as time_produced" +
-                " from records as rep, Products as prod, userData as usr" +
+                " from records as rep, Products as prod, user as usr" +
                 " where prod.id == rep.id_product and usr.id == rep.id_worker" +
                 " order by rep.time_produced"
     )

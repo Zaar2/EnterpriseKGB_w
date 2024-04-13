@@ -9,9 +9,11 @@ class UserMapperApiToDb(
     fun execute(): UserDb =
         UserDb(
             id = userApi.id,
-            nameFull = userApi.nameFull,
-            nameShort = userApi.nameShort,
+            nameFull = userApi.full_name,
+            nameShort = userApi.short_name,
             appointment = userApi.appointment,
-            idWorkshop = userApi.idWorkshop
+            idWorkshop = userApi.id_workshop,
+            usrLogin = userApi.usr_login,
+            idOneMoreWorkshop = userApi.id_one_more_workshop,
         )
 }

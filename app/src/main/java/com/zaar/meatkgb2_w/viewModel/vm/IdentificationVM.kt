@@ -66,7 +66,12 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
 
     fun initNewAccount(logPass: LogPass) {
         SharedPreferencesRepositoryImpl(myContext).deleteKeys(
-            arrayOf(TypeKeyForStore.KEY_SESSION_ID.value)
+            arrayOf(
+                TypeKeyForStore.KEY_SESSION_ID.value,
+                TypeKeyForStore.KEY_ENTERPRISE_ID.value,
+                TypeKeyForStore.KEY_USR_LOG.value,
+                TypeKeyForStore.KEY_USR_PASS.value
+            )
         )
         obtainingValidSessionID(logPass, true)
     }
@@ -83,9 +88,18 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
             bundle.putString(TypeKeyForStore.KEY_USR_LOG.value, logPass.usrLogin)
             bundle.putString(TypeKeyForStore.KEY_USR_PASS.value, logPass.usrPass)
             bundle.putString(TypeKeyForStore.KEY_ENTERPRISE_ID.value, logPass.enterpriseId)
+            mldStageDescriptionForAppEntry.value = "logPass is prepared for save"
+        } else {
+            mldStageDescriptionForAppEntry.value = "logPas is empty"
+            mldIsSavedRegData.value = false
         }
-        if (!sessionId.isNullOrEmpty())
+        if (!sessionId.isNullOrEmpty()) {
             bundle.putString(TypeKeyForStore.KEY_SESSION_ID.value, sessionId)
+            mldStageDescriptionForAppEntry.value = "sessionId is prepared for save"
+        } else {
+            mldStageDescriptionForAppEntry.value = "sessionId is null or empty"
+            mldIsSavedRegData.value = false
+        }
         mldIsSavedRegData.value = SharedPreferencesRepositoryImpl(myContext).setPreferences(bundle)
     }
 
@@ -100,24 +114,25 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
                     .getPreferencesVal(arrayOf(TypeKeyForStore.KEY_ENTERPRISE_ID.value))
                     .getString(TypeKeyForStore.KEY_ENTERPRISE_ID.value, "") ?: ""
             if (enterpriseId.isNotEmpty() && sessionId.isNotEmpty()) {
-                val result = update(sessionId, enterpriseId)
+                val result = updateDb(sessionId, enterpriseId)
                 mldIsUpdatingData.value = result.await()
             } else {
+                mldStageDescriptionForAppEntry.value="enterpriseId and sessionId not exists in store"
                 mldIsUpdatingData.value = false
             }
         }
     }
 
-    private fun update(
+    private fun updateDb(
         sessionId: String,
         enterpriseId: String,
     ): Deferred<Boolean> {
         return viewModelScope.async(Dispatchers.IO) {
             if (
-                async { UpdateWorkerUseCase(sessionId, enterpriseId, myContext).execute() }.await()
+                async { UpdateWorkerUseCase(sessionId, enterpriseId, myContext).executeWithReplace() }.await()
             ) {
                 val idWorkshop =
-                    async { LocalDBRepositoryImpl(myContext).getUserWorkshop() }.await()
+                    async { LocalDBRepositoryImpl(myContext).getIdWorkshop() }.await()
                 if (idWorkshop >= 0) {
                     val resUpdShop = async {
                         UpdateShopUseCase(
@@ -125,16 +140,33 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
                             enterpriseId = enterpriseId,
                             idWorkshop = idWorkshop,
                             myContext = myContext
-                        ).execute()
+                        ).executeWithReplace()
                     }.await()
+                    val idOneMoreWorkshop =
+                        async {
+                            val role = LocalDBRepositoryImpl(myContext).getIdRoleByShop()
+                            if (role == 3L)
+                                LocalDBRepositoryImpl(myContext).getIdMoreWorkshop()
+                            else -1L
+                        }.await()
                     val resUpdProd = async {
                         UpdateProductUseCase(
                             sessionId = sessionId,
                             enterpriseId = enterpriseId,
                             idWorkshop = idWorkshop,
                             myContext = myContext
-                        ).execute()
+                        ).executeWithReplace()
                     }.await()
+                    if (idOneMoreWorkshop > 0) {
+                        launch {
+                            UpdateProductUseCase(
+                                sessionId = sessionId,
+                                enterpriseId = enterpriseId,
+                                idWorkshop = idOneMoreWorkshop,
+                                myContext = myContext
+                            ).executeWithAppend()
+                        }.join()
+                    }
                     resUpdProd && resUpdShop
                 } else false
             } else false

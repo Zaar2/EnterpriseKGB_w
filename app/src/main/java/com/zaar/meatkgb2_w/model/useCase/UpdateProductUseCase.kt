@@ -12,7 +12,7 @@ class UpdateProductUseCase(
     private val idWorkshop: Long = -1,
     private val myContext: Context
 ) {
-    suspend fun execute(): Boolean {
+    suspend fun executeWithReplace(): Boolean {
         val productsApi = RemoteRepositoryImpl().getProducts(
             sessionId = sessionId,
             idWorkshop = idWorkshop,
@@ -28,7 +28,29 @@ class UpdateProductUseCase(
             }
             val idsProductInserted = myContext.let {
                 LocalDBRepositoryImpl(it)
-                    .productInsertWithReplace(productsDb)
+                    .productsInsertWithReplace(productsDb)
+            }
+            idsProductInserted.size == productsDb.size
+        } else false
+    }
+
+    suspend fun executeWithAppend(): Boolean {
+        val productsApi = RemoteRepositoryImpl().getProducts(
+            sessionId = sessionId,
+            idWorkshop = idWorkshop,
+            enterpriseID = enterpriseId
+        )
+        return if (!productsApi.isNullOrEmpty()) {
+            val productsDb = productsApi.run {
+                val productsOutput = mutableListOf<ProductDb>()
+                forEach {
+                    productsOutput.add(ProductMapperApiToDb(it).execute())
+                }
+                productsOutput
+            }
+            val idsProductInserted = myContext.let {
+                LocalDBRepositoryImpl(it)
+                    .productsInsert(productsDb)
             }
             idsProductInserted.size == productsDb.size
         } else false

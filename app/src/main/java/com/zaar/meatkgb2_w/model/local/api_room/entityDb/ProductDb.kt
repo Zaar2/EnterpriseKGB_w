@@ -7,8 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "products")
 data class ProductDb(
     @PrimaryKey(autoGenerate = true) var id: Long,
-    @ColumnInfo(name = "nameProduct") var nameProduct: String,
-    @ColumnInfo(name = "idShop") var idShop: Long,
+    @ColumnInfo(name = "product_name") var nameProduct: String,
+    @ColumnInfo(name = "id_workshop") var idShop: Long,
     @ColumnInfo(name = "me") var me: String,
     @ColumnInfo(name = "accuracy") var accuracy: Int,
+    @ColumnInfo(name = "id_status") var idStatus: Int
 )

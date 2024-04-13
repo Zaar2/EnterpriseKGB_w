@@ -43,10 +43,11 @@ class RemoteRepositoryImpl: RemoteRepository {
                 ?.getWorkerBySession(sessionId, enterpriseID)
             if (response != null) {
                 if (response.isSuccessful) {
-                    response.body()
+                    response.body()?.get(0)
                 } else null
             } else null
-        } catch (e: Exception) {
+        }
+        catch (exception: Exception) {
             null
         }
 
@@ -64,7 +65,7 @@ class RemoteRepositoryImpl: RemoteRepository {
                 )
             if (response != null) {
                 if (response.isSuccessful) {
-                    response.body()
+                    response.body()?.get(0)
                 } else null
             } else null
         } catch (e: Exception) {

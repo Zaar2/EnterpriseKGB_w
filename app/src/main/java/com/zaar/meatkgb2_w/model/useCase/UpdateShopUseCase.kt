@@ -11,7 +11,7 @@ class UpdateShopUseCase(
     private val idWorkshop: Long = -1,
     private val myContext: Context
 ) {
-    suspend fun execute(): Boolean {
+    suspend fun executeWithReplace(): Boolean {
         val shopApi = RemoteRepositoryImpl().getShop(
             sessionId = sessionId,
             idWorkshop = idWorkshop,

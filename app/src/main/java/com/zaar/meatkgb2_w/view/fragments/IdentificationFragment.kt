@@ -78,6 +78,7 @@ class IdentificationFragment: Fragment() {
         model?.ldIsInitExistsEnterprise
             ?.observe(viewLifecycleOwner) {
                 if (!it) visibilityFields(View.VISIBLE)
+                btnOn()
             }
         model?.ldUserData()?.observe(viewLifecycleOwner) {
             it?.also {
@@ -105,7 +106,12 @@ class IdentificationFragment: Fragment() {
         }
         model?.ldIsSavedRegData()?.observe(viewLifecycleOwner) { isSaved ->
             if (isSaved) {
+                binding.tvDescriptionMain.append("registration data is saved")
                 model?.updatingData()
+            } else {
+                binding.tvDescriptionMain.append("registration data not saved")
+                binding.layoutIdentification.visibility = View.VISIBLE
+                btnOn()
             }
         }
         model?.ldIsUpdatingData()?.observe(viewLifecycleOwner) {
@@ -155,6 +161,7 @@ class IdentificationFragment: Fragment() {
     }
 
     private fun initView() {
+
         visibilityFields(View.GONE)
     }
 

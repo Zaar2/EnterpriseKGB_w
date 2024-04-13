@@ -46,13 +46,13 @@ interface ApiInterface {
         @Path(value = "sessionID") sessionID: String,
         @Path(value = "id_workshop") idWorkshop: Long,
         @Query("enterpriseId") enterpriseID: String,
-    ): Response<ShopApi>
+    ): Response<List<ShopApi>>
 
     @GET("worker/{sessionID}")
     suspend fun getWorkerBySession(
         @Path(value = "sessionID") sessionID: String,
         @Query("enterpriseId") enterpriseID: String
-    ): Response<UserApi>
+    ): Response<List<UserApi>>
 
     @GET("worker/{idWorker}/{sessionID}")
     suspend fun getWorker(

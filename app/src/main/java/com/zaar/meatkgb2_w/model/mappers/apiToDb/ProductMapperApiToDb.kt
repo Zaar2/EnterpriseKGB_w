@@ -9,9 +9,10 @@ class ProductMapperApiToDb(
     fun execute():ProductDb=
         ProductDb(
             id = productApi.id,
-            nameProduct = productApi.nameProduct,
-            idShop = productApi.idShop,
+            nameProduct = productApi.product_name,
+            idShop = productApi.id_workshop,
             me = productApi.me,
-            accuracy = productApi.accuracy
+            accuracy = productApi.accuracy,
+            idStatus = productApi.id_status
         )
 }

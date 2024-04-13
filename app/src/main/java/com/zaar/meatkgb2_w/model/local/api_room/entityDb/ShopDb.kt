@@ -7,5 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "shop")
 data class ShopDb(
     @PrimaryKey(autoGenerate = true) var id: Long,
-    @ColumnInfo(name = "nameShop") var nameShop: String
+    @ColumnInfo(name = "name") var nameShop: String,
+    @ColumnInfo(name = "nonManufacture_isChecked") val nonManufactureIsChecked: String,
+    @ColumnInfo(name = "id_type_role") val idTypeRole: Int,
+    @ColumnInfo(name = "id_status") val idStatus: Int,
+    @ColumnInfo(name = "short_name") val shortName: String,
 )
