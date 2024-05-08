@@ -1,9 +1,12 @@
 package com.zaar.meatkgb2_w.model.useCase
 
 import android.content.Context
+import android.util.Log
 import com.zaar.meatkgb2_w.model.mappers.apiToDb.ShopMapperApiToDb
 import com.zaar.meatkgb2_w.model.repository.LocalDBRepositoryImpl
 import com.zaar.meatkgb2_w.model.repository.RemoteRepositoryImpl
+import kotlin.coroutines.ContinuationInterceptor
+import kotlin.coroutines.coroutineContext
 
 class UpdateShopUseCase(
     private val sessionId: String,
@@ -12,6 +15,7 @@ class UpdateShopUseCase(
     private val myContext: Context
 ) {
     suspend fun executeWithReplace(): Boolean {
+        Log.d("TAG", "Dispatcher = ${coroutineContext[ContinuationInterceptor]},\n MESSAGE: CurrentThread[${Thread.currentThread().name}]")
         val shopApi = RemoteRepositoryImpl().getShop(
             sessionId = sessionId,
             idWorkshop = idWorkshop,

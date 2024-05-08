@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.zaar.meatkgb2_w.R
 import com.zaar.meatkgb2_w.databinding.FragmentSettingBinding
-import com.zaar.meatkgb2_w.utilities.types.tegsExchangingBetweenFragment
+import com.zaar.meatkgb2_w.utilities.types.TegExchangingBetweenFragment
 import com.zaar.meatkgb2_w.viewModel.vm.SettingVM
 import com.zaar.meatkgb2_w.viewModel.factory.SettingFactory
 
@@ -54,10 +54,10 @@ class SettingFragment: Fragment() {
         binding.btnResetIdentification.setOnClickListener {
             val bundle = Bundle()
             bundle.putString(
-                tegsExchangingBetweenFragment.SOURCE.value, SettingFragment::class.simpleName
+                TegExchangingBetweenFragment.SOURCE.value, SettingFragment::class.simpleName
             )
             bundle.putString(
-                tegsExchangingBetweenFragment.ACTION.value, getString(R.string.action_reset_access)
+                TegExchangingBetweenFragment.ACTION.value, getString(R.string.action_reset_access)
             )
             toNextView(
                 R.id.action_settingFragment_to_identificationFragment, bundle

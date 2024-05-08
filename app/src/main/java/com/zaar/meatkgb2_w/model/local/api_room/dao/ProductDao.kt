@@ -28,4 +28,19 @@ interface ProductDao: BaseDao<ProductDb> {
 
     @Query("select me from products where product_name=:productName limit 1")
     suspend fun getMeByProduct(productName: String): String
+
+    @Query("select me from products where id=:id")
+    suspend fun getMeById(id: Long): String
+
+    @Query("select id from products where product_name=:name limit 1")
+    suspend fun getIdByName(name: String): Long
+
+    @Query("select product_name from products where id=:id limit 1")
+    suspend fun getNameById(id: Long): String
+
+    @Query("select id_workshop from products where product_name=:name limit 1")
+    suspend fun getShopIdByName(name: String): Long
+
+    @Query("select accuracy from products where product_name=:name limit 1")
+    suspend fun getAccuracyByName(name: String): Int
 }

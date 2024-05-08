@@ -9,11 +9,14 @@ import com.zaar.meatkgb2_w.utilities.types.TypeKeyForStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
+import kotlin.coroutines.ContinuationInterceptor
+import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.suspendCoroutine
 
 class SessionIdUseCase(
@@ -49,10 +52,12 @@ class SessionIdUseCase(
     fun obtainingValidSessionID(
         logPass: LogPass,
         isNewAccount: Boolean,
-        scope: CoroutineScope
     ): Deferred<String> {
-        return scope.async(Dispatchers.IO) {
-            Log.d("TAG", "MESSAGE: CurrentThread[${Thread.currentThread().name}]")
+        return CoroutineScope(Job() + Dispatchers.IO).async {
+            Log.d(
+                "TAG",
+                "Dispatcher = ${coroutineContext[ContinuationInterceptor]},\n MESSAGE: CurrentThread[${Thread.currentThread().name}]"
+            )
             //step 0
             if (isNewAccount) {
                 //step 2

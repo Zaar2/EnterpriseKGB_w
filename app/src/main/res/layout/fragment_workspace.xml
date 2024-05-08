@@ -4,13 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".view.fragments.WorkspaceFragment"
     android:background="@color/transparent"
     >
 
-    <LinearLayout
-        android:id="@+id/layout_DataPanel"
+    <LinearLayout android:id="@+id/layout_DataPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -52,14 +51,16 @@
             android:layout_height="wrap_content"
             android:gravity="bottom"
             android:orientation="horizontal"
-            android:weightSum="100">
+            android:weightSum="100"
+            android:layout_gravity="center_vertical"
+            >
 
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_weight="45"
+                android:layout_weight="25"
                 android:text="@string/label_date"
-                android:gravity="center_vertical"
+
                 style="@style/textView_label"
                 />
 
@@ -70,7 +71,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="40"
                 android:clickable="true"
-                android:focusable="true" />
+                android:focusable="true"
+                />
 
             <TextView
                 android:id="@+id/textView_idDB"
@@ -88,11 +90,11 @@
             <CheckBox
                 android:id="@+id/checkbox_idDB"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="15"
                 android:buttonTint="@color/black"
                 android:clickable="false"
-                android:gravity="end|center_vertical"
+                android:gravity="end"
                 android:visibility="visible" />
         </LinearLayout>
         <!--        name of product-->
@@ -101,12 +103,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="100">
+            android:weightSum="100"
+            android:layout_gravity="center_vertical"
+            >
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="20"
+                android:layout_weight="25"
                 android:gravity="center_vertical"
                 style="@style/textView_label"
                 android:text="@string/label_product"
@@ -118,8 +122,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="80"
-                android:gravity="end" />
+                android:layout_weight="75"
+                android:gravity="end"
+                />
         </LinearLayout>
         <!--        hour of produced-->
         <LinearLayout
@@ -127,12 +132,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="100">
+            android:weightSum="100"
+            android:layout_gravity="center_vertical"
+            >
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="70"
+                android:layout_weight="25"
                 android:gravity="center_vertical"
                 style="@style/textView_label"
                 android:text="@string/label_time_produce"
@@ -150,14 +157,17 @@
         <LinearLayout
             android:id="@+id/layout_count"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="100"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:layout_gravity="center_vertical"
+            >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
+                android:layout_weight="25"
                 style="@style/textView_label"
                 android:text="@string/label_count"
                 />
@@ -167,7 +177,7 @@
                 style="@style/textView_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30"
+                android:layout_weight="35"
                 android:inputType="numberDecimal"
                 android:autofillHints="0.00"
                 tools:ignore="LabelFor,NestedWeights" />
@@ -177,33 +187,44 @@
                 style="@style/textView_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="20"
+                android:layout_weight="30"
                 android:text="@string/_______" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/layoutRecords"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_DataPanel"
+        android:visibility="visible"
         >
-        <include android:id="@+id/panelOfButtons"
-            layout="@layout/for_include_panel_of_batons"
+
+        <include
+            android:id="@+id/panelOfButtons"
+            layout="@layout/for_include_panel_of_batons" />
+
+        <include
+            android:id="@+id/label_forListView_mainActivity"
+            layout="@layout/label_item_list_view" />
+
+        <include android:id="@+id/progressBar"
+            layout="@layout/layout_progress_bar_retrieving_records"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
             />
-        <include android:id="@+id/label_forListView_mainActivity"
-            layout="@layout/label_item_list_view"
-            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recView_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="none"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="vertical"
             android:visibility="visible"
+            android:paddingHorizontal="@dimen/size_padding_left"
             />
     </LinearLayout>
 

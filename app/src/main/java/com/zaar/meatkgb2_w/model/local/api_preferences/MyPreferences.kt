@@ -58,12 +58,14 @@ class MyPreferences(
      * @return bundle containing the boolean value
      */
     fun contains(keys: Array<String>): Bundle {
+        Log.d("TAG", "MESSAGE: CurrentThread[${Thread.currentThread().name}]")
         val result = Bundle()
         for (key in keys) result.putBoolean(key, preferences.contains(key))
         return result
     }
 
     fun getPreferencesVal(keys: Array<String>): Bundle {
+        Log.d("TAG", "MESSAGE: CurrentThread[${Thread.currentThread().name}]")
         val result = Bundle()
         for (key in keys) result.putString(key, preferences.getString(key, ""))
         return result

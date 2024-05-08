@@ -10,8 +10,8 @@ import androidx.navigation.Navigation
 import com.zaar.meatkgb2_w.R
 import com.zaar.meatkgb2_w.data.LogPass
 import com.zaar.meatkgb2_w.databinding.FragmentIdentificationUserBinding
-import com.zaar.meatkgb2_w.utilities.types.tegsExchangingBetweenFragment
-import com.zaar.meatkgb2_w.utilities.view.ViewUtilities
+import com.zaar.meatkgb2_w.utilities.types.TegExchangingBetweenFragment
+import com.zaar.meatkgb2_w.utilities.view.UtilitiesView
 import com.zaar.meatkgb2_w.viewModel.vm.IdentificationVM
 import com.zaar.meatkgb2_w.viewModel.factory.IdentificationFactory
 
@@ -21,6 +21,7 @@ class IdentificationFragment: Fragment() {
     private val binding get() = _binding!!
     private var model: IdentificationVM? = null
     private var logPass: LogPass? = null
+//    private var shopId = -1L
     private var source = ""
     private var action = ""
 
@@ -43,7 +44,7 @@ class IdentificationFragment: Fragment() {
                 initExistsAccount()
             else onResetAccess()
         } else {
-            binding.tvDescriptionMain.text = getString(R.string.err_init_viewmodel)
+            binding.tvDescriptionMain.append(getString(R.string.err_init_viewmodel) + "\n")
         }
     }
 
@@ -60,8 +61,8 @@ class IdentificationFragment: Fragment() {
         }
         if (arguments != null) {
             val bundle = arguments
-            source = bundle?.getString(tegsExchangingBetweenFragment.SOURCE.value, "") ?: ""
-            action = bundle?.getString(tegsExchangingBetweenFragment.ACTION.value, "") ?: ""
+            source = bundle?.getString(TegExchangingBetweenFragment.SOURCE.value, "") ?: ""
+            action = bundle?.getString(TegExchangingBetweenFragment.ACTION.value, "") ?: ""
         }
     }
 
@@ -88,6 +89,9 @@ class IdentificationFragment: Fragment() {
                 binding.etUsrPassWorker.setText(it.usrPass)
             }
         }
+//        model?.ldShopId()?.observe(viewLifecycleOwner) { id ->
+//            id?.also { if (it >= 0) shopId = it }
+//        }
         model?.ldSessionID()?.observe(viewLifecycleOwner) { sessionId ->
             if (!sessionId.isNullOrEmpty()) {
                 //save reg data to storage
@@ -106,10 +110,10 @@ class IdentificationFragment: Fragment() {
         }
         model?.ldIsSavedRegData()?.observe(viewLifecycleOwner) { isSaved ->
             if (isSaved) {
-                binding.tvDescriptionMain.append("registration data is saved")
+                binding.tvDescriptionMain.append("registration data is saved\n")
                 model?.updatingData()
             } else {
-                binding.tvDescriptionMain.append("registration data not saved")
+                binding.tvDescriptionMain.append("registration data not saved\n")
                 binding.layoutIdentification.visibility = View.VISIBLE
                 btnOn()
             }
@@ -117,23 +121,29 @@ class IdentificationFragment: Fragment() {
         model?.ldIsUpdatingData()?.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
+                    binding.tvDescriptionMain.append("prepare a send data\n")
                     val bundle = Bundle()
                     bundle.putString(
-                        tegsExchangingBetweenFragment.SOURCE.value,
+                        TegExchangingBetweenFragment.SOURCE.value,
                         IdentificationFragment::class.simpleName
                     )
                     bundle.putString(
-                        tegsExchangingBetweenFragment.ACTION.value,
+                        TegExchangingBetweenFragment.ACTION.value,
                         getString(R.string.action_usr_access_ok)
                     )
                     bundle.putString(
-                        tegsExchangingBetweenFragment.LOGIN.value,
+                        TegExchangingBetweenFragment.LOGIN.value,
                         logPass?.usrLogin ?: ""
                     )
                     bundle.putString(
-                        tegsExchangingBetweenFragment.ENTERPRISE_ID.value,
+                        TegExchangingBetweenFragment.ENTERPRISE_ID.value,
                         logPass?.enterpriseId ?: ""
                     )
+//                    bundle.putLong(
+//                        TegExchangingBetweenFragment.SHOP_ID.value,
+//                        shopId
+//                    )
+                    binding.tvDescriptionMain.append("going to the workspace\n")
                     toMainFragment(bundle)
                 }
 
@@ -142,6 +152,11 @@ class IdentificationFragment: Fragment() {
                     btnOn()
                 }
             }
+        }
+        model?.ldIsOnline()?.observe(viewLifecycleOwner) {
+            it?.also {
+                binding.tvDescriptionMain.append("Internet is connected ($it)\n")
+            } ?: binding.tvDescriptionMain.append("Internet is disconnected\n")
         }
     }
 
@@ -187,9 +202,9 @@ class IdentificationFragment: Fragment() {
 
     private fun btnOff() {
         context?.let { context ->
-            ViewUtilities().activeBtnOff(
+            UtilitiesView().activeBtnOff(
                 binding.btnOkIdentificationUser,
-                context.getColorStateList(R.color.button_blocked),
+                context.getColorStateList(R.color.tint_button_blocked),
                 context.getColorStateList(R.color.black)
             )
         }
@@ -197,9 +212,9 @@ class IdentificationFragment: Fragment() {
 
     private fun btnOn() {
         context?.let { context ->
-            ViewUtilities().activeBtnOn(
+            UtilitiesView().activeBtnOn(
                 binding.btnOkIdentificationUser,
-                context.getColorStateList(R.color.bg_selector),
+                context.getColorStateList(R.color.tint_bg_selector),
                 context.getColorStateList(R.color.milk_background)
             )
         }

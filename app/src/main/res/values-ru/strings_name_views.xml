@@ -10,10 +10,13 @@
     <string name="btn_cancel">Отмена</string>
 
     <string name="label_date">Дата</string>
+    <string name="label_hour">Час</string>
     <string name="label_name_user">Работник</string>
     <string name="label_product">П/ф</string>
     <string name="label_count">Кол-во</string>
     <string name="label_time_produce">Час</string>
+    <string name="label_me">е.и.</string>
+    <string name="label_progressBar">Получение и обработка данных с сервера</string>
 
     <string name="_update_name_product">обновить список продукции</string>
     <string name="_settingOf_dbConnection">Настройка доступа к БД</string>

@@ -2,6 +2,7 @@ package com.zaar.meatkgb2_w.viewModel.vm
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlin.coroutines.ContinuationInterceptor
 
 class IdentificationVM(myContext: Context): BaseVM(myContext) {
     private var mldIsSavedRegData = MutableLiveData<Boolean>()
@@ -25,13 +27,18 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
     private var mldIsUpdatingData = MutableLiveData<Boolean>()
     fun ldIsUpdatingData(): LiveData<Boolean> = mldIsUpdatingData
 
+    /**
+     * initialization of the user account that has been saved in the local storage
+     */
     fun initStoredAccount() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("TAG", "MESSAGE: CurrentThread[${Thread.currentThread().name}]")
             val isExists = SharedPreferencesRepositoryImpl(myContext).containsPreferences(
                 arrayOf(
                     TypeKeyForStore.KEY_USR_LOG.value,
                     TypeKeyForStore.KEY_USR_PASS.value,
-                    TypeKeyForStore.KEY_ENTERPRISE_ID.value
+                    TypeKeyForStore.KEY_ENTERPRISE_ID.value,
+                    TypeKeyForStore.KEY_SHOP_ID.value,
                 )
             )
             if (
@@ -39,8 +46,8 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
                 && isExists.getBoolean(TypeKeyForStore.KEY_USR_LOG.value)
                 && isExists.getBoolean(TypeKeyForStore.KEY_USR_PASS.value)
             ) {
-                mldStageDescriptionForAppEntry.value = "idEnterprise is exists!"
-                mldStageDescriptionForAppEntry.value = "login and password is exists!"
+                mldStageDescriptionForAppEntry.postValue("idEnterprise is exists!")
+                mldStageDescriptionForAppEntry.postValue("login and password is exists!")
                 val bundleLogPass = SharedPreferencesRepositoryImpl(myContext).getPreferencesVal(
                     arrayOf(
                         TypeKeyForStore.KEY_USR_LOG.value,
@@ -57,7 +64,11 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
                     usrPass = bundleLogPass.getString(TypeKeyForStore.KEY_USR_PASS.value, "")
                 )
                 if (!logPass.isEmpty()) {
-                    mldUserData.value = logPass
+                    mldUserData.postValue(logPass)
+                    Log.d(
+                        "TAG",
+                        "Dispatcher = ${coroutineContext[ContinuationInterceptor]},\n MESSAGE: CurrentThread[${Thread.currentThread().name}]"
+                    )
                     obtainingValidSessionID(logPass, false)
                 } else sendErrInitAccount(TypeErrInitAccount.REG_DATA_IS_EMPTY)
             } else sendErrInitAccount(TypeErrInitAccount.IS_NOT_EXISTS_STORE)
@@ -104,7 +115,11 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
     }
 
     fun updatingData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d(
+                "TAG",
+                "Dispatcher = ${coroutineContext[ContinuationInterceptor]},\n MESSAGE: CurrentThread[${Thread.currentThread().name}]"
+            )
             val sessionId =
                 SharedPreferencesRepositoryImpl(myContext)
                     .getPreferencesVal(arrayOf(TypeKeyForStore.KEY_SESSION_ID.value))
@@ -114,11 +129,17 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
                     .getPreferencesVal(arrayOf(TypeKeyForStore.KEY_ENTERPRISE_ID.value))
                     .getString(TypeKeyForStore.KEY_ENTERPRISE_ID.value, "") ?: ""
             if (enterpriseId.isNotEmpty() && sessionId.isNotEmpty()) {
+                Log.d(
+                    "TAG",
+                    "Dispatcher = ${coroutineContext[ContinuationInterceptor]},\n MESSAGE: CurrentThread[${Thread.currentThread().name}]"
+                )
                 val result = updateDb(sessionId, enterpriseId)
-                mldIsUpdatingData.value = result.await()
+                val value = result.await()
+                mldIsUpdatingData.postValue(value)
             } else {
-                mldStageDescriptionForAppEntry.value="enterpriseId and sessionId not exists in store"
-                mldIsUpdatingData.value = false
+                mldStageDescriptionForAppEntry
+                    .postValue("enterpriseId and sessionId not exists in store")
+                mldIsUpdatingData.postValue(false)
             }
         }
     }
@@ -128,46 +149,55 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
         enterpriseId: String,
     ): Deferred<Boolean> {
         return viewModelScope.async(Dispatchers.IO) {
-            if (
-                async { UpdateWorkerUseCase(sessionId, enterpriseId, myContext).executeWithReplace() }.await()
-            ) {
-                val idWorkshop =
-                    async { LocalDBRepositoryImpl(myContext).getIdWorkshop() }.await()
-                if (idWorkshop >= 0) {
-                    val resUpdShop = async {
-                        UpdateShopUseCase(
+            if (isOnline()) {
+                if (
+                    UpdateWorkerUseCase(sessionId, enterpriseId, myContext)
+                        .executeWithReplace()
+                ) {
+                    Log.d(
+                        "TAG",
+                        "Dispatcher = ${coroutineContext[ContinuationInterceptor]},\n MESSAGE: CurrentThread[${Thread.currentThread().name}]"
+                    )
+                    val idWorkshop = LocalDBRepositoryImpl(myContext).getIdWorkshop()
+                    if (idWorkshop >= 0) {
+                        mldStageDescriptionForAppEntry.postValue("updating user data - is ok")
+                        val resUpdShop = UpdateShopUseCase(
                             sessionId = sessionId,
                             enterpriseId = enterpriseId,
                             idWorkshop = idWorkshop,
                             myContext = myContext
                         ).executeWithReplace()
-                    }.await()
-                    val idOneMoreWorkshop =
-                        async {
-                            val role = LocalDBRepositoryImpl(myContext).getIdRoleByShop()
+                        val role = LocalDBRepositoryImpl(myContext).getIdRoleByShop()
+                        val idOneMoreWorkshop =
                             if (role == 3L)
                                 LocalDBRepositoryImpl(myContext).getIdMoreWorkshop()
                             else -1L
-                        }.await()
-                    val resUpdProd = async {
-                        UpdateProductUseCase(
-                            sessionId = sessionId,
-                            enterpriseId = enterpriseId,
-                            idWorkshop = idWorkshop,
-                            myContext = myContext
-                        ).executeWithReplace()
-                    }.await()
-                    if (idOneMoreWorkshop > 0) {
-                        launch {
+                        val resUpdProd =
+                            UpdateProductUseCase(
+                                sessionId = sessionId,
+                                enterpriseId = enterpriseId,
+                                idWorkshop = idWorkshop,
+                                myContext = myContext
+                            ).executeWithReplace()
+                        if (idOneMoreWorkshop > 0) {
                             UpdateProductUseCase(
                                 sessionId = sessionId,
                                 enterpriseId = enterpriseId,
                                 idWorkshop = idOneMoreWorkshop,
                                 myContext = myContext
                             ).executeWithAppend()
-                        }.join()
+                        }
+                        if (resUpdShop)
+                            mldStageDescriptionForAppEntry.postValue("updating shop data - is ok")
+                        else mldStageDescriptionForAppEntry.postValue("updating shop data - is false")
+                        if (resUpdProd)
+                            mldStageDescriptionForAppEntry.postValue("updating products data - is ok")
+                        else mldStageDescriptionForAppEntry.postValue("updating products data - is false")
+                        resUpdProd && resUpdShop
+                    } else {
+                        mldStageDescriptionForAppEntry.postValue("updating data - is false")
+                        false
                     }
-                    resUpdProd && resUpdShop
                 } else false
             } else false
         }
@@ -181,16 +211,14 @@ class IdentificationVM(myContext: Context): BaseVM(myContext) {
     private fun sendErrInitAccount(typeErr: TypeErrInitAccount) {
         when (typeErr) {
             TypeErrInitAccount.REG_DATA_IS_EMPTY -> {
-                mldStageDescriptionForAppEntry.value =
-                    "Fields of registration data is empty!"
+                mldStageDescriptionForAppEntry.postValue("Fields of registration data is empty!")
             }
 
             TypeErrInitAccount.IS_NOT_EXISTS_STORE -> {
-                mldStageDescriptionForAppEntry.value =
-                    "idEnterprise or login or password is not contains in the store!"
+                mldStageDescriptionForAppEntry.postValue("idEnterprise or login or password is not contains in the store!")
             }
         }
-        mldStageDescriptionForAppEntry.value = "PLEASE INSERT REGISTRATION DATA!"
-        mldIsInitExistsEnterprise.value = false
+        mldStageDescriptionForAppEntry.postValue("PLEASE INSERT REGISTRATION DATA!")
+        mldIsInitExistsEnterprise.postValue(false)
     }
 }

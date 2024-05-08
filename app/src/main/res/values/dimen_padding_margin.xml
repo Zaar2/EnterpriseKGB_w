@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_in_frame_of_statistics">3dp</dimen> <!--  -->
-    <dimen name="margin_listView">5dip</dimen>
+    <dimen name="margin_listView">2dip</dimen>
     <dimen name="margin_dialogFragment">50dip</dimen>
     <dimen name="padding_dialogFragment">30dip</dimen>
     <dimen name="margin_editText_structEdit">15dip</dimen>

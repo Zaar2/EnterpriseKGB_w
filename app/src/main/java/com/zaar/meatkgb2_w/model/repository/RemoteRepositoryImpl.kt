@@ -4,6 +4,7 @@ import com.zaar.meatkgb2_w.data.LogPass
 import com.zaar.meatkgb2_w.model.remote.api_retrofit.api.ApiInterface
 import com.zaar.meatkgb2_w.model.remote.api_retrofit.builder.ApiClient
 import com.zaar.meatkgb2_w.model.remote.api_retrofit.entityApi.ProductApi
+import com.zaar.meatkgb2_w.model.remote.api_retrofit.entityApi.RecordApi
 import com.zaar.meatkgb2_w.model.remote.api_retrofit.entityApi.ShopApi
 import com.zaar.meatkgb2_w.model.remote.api_retrofit.entityApi.UserApi
 
@@ -46,8 +47,7 @@ class RemoteRepositoryImpl: RemoteRepository {
                     response.body()?.get(0)
                 } else null
             } else null
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             null
         }
 
@@ -85,6 +85,54 @@ class RemoteRepositoryImpl: RemoteRepository {
                     response.body()
                 } else null
             } else null
+        } catch (e: Exception) {
+            null
+        }
+
+    override suspend fun postRecord(
+        recordApi: RecordApi,
+        sessionId: String,
+    ): List<RecordApi>? =
+        try {
+            val response = (ApiClient.getClient()?.create(ApiInterface::class.java))
+                ?.addRecord(sessionId, recordApi)
+            response?.let {
+                if (it.isSuccessful) {
+                    response.body()
+                } else null
+            }
+        } catch (e: Exception) {
+            null
+        }
+
+    override suspend fun deleteRecord(
+        sessionId: String, idRecord: Long, idUser: Long, enterpriseId: String
+    ): List<RecordApi>? =
+        try {
+            val response = (ApiClient.getClient()?.create(ApiInterface::class.java))
+                ?.deleteRecord(sessionId, idRecord, idUser, enterpriseId)
+            response?.let {
+                if (it.isSuccessful) {
+                    response.body()
+                } else null
+            }
+        } catch (e: Exception) {
+            null
+        }
+
+    override suspend fun getRecords(
+        sessionId: String,
+        idUser: Long,
+        idEnterprise: String,
+    ): List<RecordApi>? =
+        try {
+            val response = (ApiClient.getClient()?.create(ApiInterface::class.java))
+                ?.getRecords(sessionId, idUser, idEnterprise)
+            response?.let {
+                if (it.isSuccessful) {
+                    response.body()
+                } else null
+            }
         } catch (e: Exception) {
             null
         }

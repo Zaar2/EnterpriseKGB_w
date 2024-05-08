@@ -17,7 +17,7 @@
     <dimen name="size_of_font_infoEvent">20sp</dimen> <!-- текст информации о событии -->
 
     <dimen name="size_label_subItem_listView">13sp</dimen> <!-- size text label subItem myListViews -->
-    <dimen name="size_subItem_listView">15sp</dimen> <!-- size text subItem myListViews -->
+    <dimen name="size_subItem_listView">14sp</dimen> <!-- size text subItem myListViews -->
     <dimen name="size_subItem_listView_mainMenu">20sp</dimen> <!-- size text subItem myListViews, mainMenu -->
     <dimen name="size_label_subItem_listView_report">15sp</dimen> <!-- size text subItem myListViews forReport -->
 

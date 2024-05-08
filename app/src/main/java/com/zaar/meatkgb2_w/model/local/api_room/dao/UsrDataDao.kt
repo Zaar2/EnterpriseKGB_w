@@ -28,6 +28,9 @@ interface UsrDataDao: BaseDao<UserDb> {
     @Query("select id_one_more_workshop from user limit 1")
     suspend fun getIdMoreWorkshop(): Long
 
+    @Query("select id from user where usr_login=:login")
+    suspend fun getIdByLogin(login: String): Long
+
     @Query("select id_type_role from shop")
     suspend fun getRoleByShop(): Long
 
@@ -37,4 +40,6 @@ interface UsrDataDao: BaseDao<UserDb> {
             " user.nameShort as userShortName " +
             "from user, shop")
     suspend fun getUserDescription(): UserDescription
+
+//    suspend fun getLogin
 }

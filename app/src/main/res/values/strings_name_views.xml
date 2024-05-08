@@ -18,10 +18,13 @@
 
     <string name="label_id" translatable="false">id</string>
     <string name="label_date">Date</string>
+    <string name="label_hour">Hour</string>
     <string name="label_name_user">Worker</string>
     <string name="label_product">Product</string>
     <string name="label_count">Count</string>
     <string name="label_time_produce">hour</string>
+    <string name="label_me">me</string>
+    <string name="label_progressBar">Receiving and processing data from the server</string>
 
     <string name="divide" translatable="false">\u0020-\u0020</string>
     <string name="_update_name_product">update product list</string>

@@ -4,6 +4,7 @@ import android.content.Context
 import com.zaar.meatkgb2_w.data.UserDescription
 import com.zaar.meatkgb2_w.model.local.api_room.database.Database
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.ProductDb
+import com.zaar.meatkgb2_w.model.local.api_room.entityDb.RecordDb
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.ShopDb
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.UserDb
 import java.util.concurrent.Callable
@@ -75,11 +76,41 @@ class LocalDBRepositoryImpl(
             else -1L
         } ?: -1
 
+    override suspend fun getShopIdByProductName(productName: String): Long =
+        db?.productDao()?.getShopIdByName(productName)?.let {
+            if (it >= 0) it
+            else -1L
+        } ?: -1L
+
+    override suspend fun getAccuracyByProductName(productName: String): Int =
+        db?.productDao()?.getAccuracyByName(productName)?.let {
+            if (it >= 0) it
+            else -1
+        } ?: -1
+
+    override suspend fun getUserIdByLogin(login: String): Long =
+        db?.usrDataDao()?.getIdByLogin(login)?.let {
+            if (it >= 0) it
+            else -1L
+        } ?: -1L
+
     override suspend fun getIdRoleByShop(): Long =
         db?.usrDataDao()?.getRoleByShop()?.let {
             if (it >= 0) it
             else -1L
         } ?: -1
+
+    override suspend fun getProductIdByName(name: String): Long =
+        db?.productDao()?.getIdByName(name)?.let {
+            if (it >= 0) it
+            else -1L
+        } ?: -1L
+
+    override suspend fun getProductNameById(id: Long): String =
+        db?.productDao()?.getNameById(id)?.let {
+            if (it.isNotEmpty()) it
+            else ""
+        } ?: ""
 
     override suspend fun getUserDescription(): UserDescription? =
         db?.usrDataDao()?.getUserDescription()
@@ -87,7 +118,12 @@ class LocalDBRepositoryImpl(
     override suspend fun getProduct(): List<String>? =
         db?.productDao()?.getProduct()
 
-    override suspend fun getMeByProduct(productName: String): String {
-        return db?.productDao()?.getMeByProduct(productName) ?: ""
-    }
+    override suspend fun getMeByProduct(productName: String): String =
+        db?.productDao()?.getMeByProduct(productName) ?: ""
+
+    override suspend fun getMeByProductId(id: Long): String =
+        db?.productDao()?.getMeById(id) ?: ""
+
+    override suspend fun setRecord(recordsDb: List<RecordDb>): LongArray? =
+        db?.recordDao()?.insertWithReplace(recordsDb)
 }

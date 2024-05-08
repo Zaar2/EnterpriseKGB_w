@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.zaar.meatkgb2_w.R
 import java.util.Calendar
 
-internal class ViewUtilities {
+internal class UtilitiesView {
 
     /**
      * @param button will be block,
@@ -26,7 +26,7 @@ internal class ViewUtilities {
     fun activeBtnOffBlock(button: Button?, context: Context) {
         activeBtnOff(
             button,
-            context.getColorStateList(R.color.button_blocked),
+            context.getColorStateList(R.color.tint_button_blocked),
             context.getColorStateList(R.color.black)
         )
     }
@@ -60,7 +60,7 @@ internal class ViewUtilities {
     fun activeBtnOn(button: Button?, context: Context) {
         activeBtnOn(
             button,
-            context.getColorStateList(R.color.bg_selector),
+            context.getColorStateList(R.color.tint_bg_selector),
             context.getColorStateList(R.color.milk_background)
             )
     }
@@ -122,11 +122,11 @@ internal class ViewUtilities {
 
     private fun dateFormatIntToString(num: Int): String {
         return if (num in 0..9) {
-            "0$num";
+            "0$num"
         } else if (num < 0 && num > -10) {
-            "-0" + (num * (-1));
+            "-0" + (num * (-1))
         } else
-            num.toString();
+            num.toString()
     }
 
     inline fun <reified T> addToBeginOfArr(incomeArr: Array<T>, element: T): Array<T> {
