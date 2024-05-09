@@ -1,7 +1,7 @@
 package com.zaar.meatkgb2_w.model.mappers.uiToApi
 
 import android.content.Context
-import com.zaar.meatkgb2_w.data.entity.RecordUi
+import com.zaar.meatkgb2_w.model.entityUi.RecordUi
 import com.zaar.meatkgb2_w.model.remote.api_retrofit.entityApi.RecordApi
 import com.zaar.meatkgb2_w.model.repository.LocalDBRepositoryImpl
 import kotlinx.coroutines.Dispatchers

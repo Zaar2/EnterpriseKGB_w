@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zaar.meatkgb2_w.data.UserDescription
-import com.zaar.meatkgb2_w.data.entity.RecordUi
+import com.zaar.meatkgb2_w.model.entityUi.RecordUi
 import com.zaar.meatkgb2_w.model.mappers.apiToDb.RecordMapperApiToDb
 import com.zaar.meatkgb2_w.model.mappers.dbToUi.RecordMapperDbToUi
 import com.zaar.meatkgb2_w.model.mappers.uiToApi.RecordMapperUiToApi

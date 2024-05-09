@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,14 +21,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zaar.meatkgb2_w.R
 import com.zaar.meatkgb2_w.data.LogPass
-import com.zaar.meatkgb2_w.data.entity.RecordUi
 import com.zaar.meatkgb2_w.databinding.FragmentWorkspaceBinding
+import com.zaar.meatkgb2_w.model.entityUi.RecordUi
 import com.zaar.meatkgb2_w.utilities.types.TegExchangingBetweenFragment
+import com.zaar.meatkgb2_w.utilities.view.UtilitiesTextFormat
 import com.zaar.meatkgb2_w.utilities.view.UtilitiesView
 import com.zaar.meatkgb2_w.view.adapter.RecordsRecViewAdapter
-import com.zaar.meatkgb2_w.viewModel.vm.WorkspaceVM
 import com.zaar.meatkgb2_w.viewModel.factory.WorkspaceFactory
-import kotlin.NumberFormatException
+import com.zaar.meatkgb2_w.viewModel.vm.WorkspaceVM
 
 class WorkspaceFragment: Fragment() {
 
@@ -44,7 +45,7 @@ class WorkspaceFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentWorkspaceBinding.inflate(inflater, container, false)
         return binding.root
@@ -109,13 +110,13 @@ class WorkspaceFragment: Fragment() {
         }
         model?.ldAccuracy()?.observe(viewLifecycleOwner) {
             accuracyDB = it
-            binding.editTextCount.setText("")
+//            binding.editTextCount.setText("")
             binding.textViewMe.text =
                 binding.textViewMe.text.toString() + " ($it)"
             btnInsertOnCheck()
         }
         model?.ldRecords()?.observe(viewLifecycleOwner) {
-            binding.editTextCount.setText("")
+//            binding.editTextCount.setText("")
             btnOff(binding.panelOfButtons.btnDelete)
             btnOn(binding.panelOfButtons.btnSelect)
             binding.checkboxIdDB.isChecked = false
@@ -136,13 +137,19 @@ class WorkspaceFragment: Fragment() {
         btnDeleteOnClick()
         btnUpdateOnClick()
         editTextAddTextChangedListener()
-        itemOnClickListener = object : RecordsRecViewAdapter.ItemOnClickListener {
-            override fun onItemClick(idRecord: Long) {
-                if (idRecord >= 0) {
-                    binding.textViewIdDB.text = idRecord.toString()
-                    binding.checkboxIdDB.isChecked = true
-                    btnOn(binding.panelOfButtons.btnDelete)
-                }
+        itemOnClickListener = initListenerRecView()
+    }
+
+    private fun selectValueForSpinner(spinner: Spinner, valueNum: Int = -1, valueStr: String = "") {
+        val valStr = if (valueNum >= 0) {
+            UtilitiesTextFormat().dateFormatIntToStr(valueNum)
+        } else {
+            valueStr
+        }
+        for (i in 0 until spinner.count) {
+            if (spinner.getItemAtPosition(i) == valStr) {
+                spinner.setSelection(i)
+                break
             }
         }
     }
@@ -179,7 +186,7 @@ class WorkspaceFragment: Fragment() {
     private fun fillingAdapterSpinner(
         context: Context,
         resIDItemLayout: Int,
-        spinnerItemsList: Array<String>
+        spinnerItemsList: Array<String>,
     ): ArrayAdapter<String> {
         return ArrayAdapter(
             context,
@@ -201,7 +208,7 @@ class WorkspaceFragment: Fragment() {
     }
 
     private fun tvDateProducedOnClick(
-        textView: TextView
+        textView: TextView,
     ) {
         textView.setOnClickListener {
             context?.apply {
@@ -226,7 +233,7 @@ class WorkspaceFragment: Fragment() {
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
-                    id: Long
+                    id: Long,
                 ) {
                     val nameProduct = view?.let {
                         (it as TextView).text.toString()
@@ -276,6 +283,7 @@ class WorkspaceFragment: Fragment() {
                 shopId = shopId,
             )
             model?.addRecord(recordUi)
+            binding.editTextCount.setText("")
         }
     }
 
@@ -283,6 +291,7 @@ class WorkspaceFragment: Fragment() {
         binding.panelOfButtons.btnDelete.setOnClickListener {
             btnOff()
             visibilityLayoutRecords(false)
+            binding.editTextCount.setText("")
             val idStr = binding.textViewIdDB.text.toString()
             if (idStr.isNotEmpty()) {
                 val idRecord =
@@ -299,6 +308,7 @@ class WorkspaceFragment: Fragment() {
     private fun btnUpdateOnClick() {
         binding.panelOfButtons.btnSelect.setOnClickListener {
             btnOff()
+            binding.editTextCount.setText("")
             visibilityLayoutRecords(false)
             model?.update()
         }
@@ -370,7 +380,7 @@ class WorkspaceFragment: Fragment() {
                 }
 
                 override fun beforeTextChanged(
-                    s: CharSequence?, start: Int, count: Int, after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int,
                 ) {
                 }
 
@@ -378,6 +388,30 @@ class WorkspaceFragment: Fragment() {
             }
         )
     }
+
+    private fun initListenerRecView(): RecordsRecViewAdapter.ItemOnClickListener =
+        object : RecordsRecViewAdapter.ItemOnClickListener {
+            override fun onItemClick(
+                record: RecordUi,
+                isSelected: Boolean,
+            ) {
+                if (isSelected) {
+                    binding.textViewIdDB.text = record.id.toString()
+                    binding.textViewDateProduced.text = record.dateProduced
+                    binding.editTextCount.setText(record.count.toString())
+                    selectValueForSpinner(
+                        binding.spinnerHour,
+                        valueNum = record.timeProduced.toInt()
+                    )
+                    selectValueForSpinner(binding.spinnerProduct, valueStr = record.productName)
+                    btnOn(binding.panelOfButtons.btnDelete)
+                } else {
+                    btnOff(binding.panelOfButtons.btnDelete)
+                    binding.editTextCount.setText("")
+                }
+                binding.checkboxIdDB.isChecked = isSelected
+            }
+        }
 
     private fun btnOff(button: Button) {
         if (button.isEnabled) {
@@ -413,7 +447,8 @@ class WorkspaceFragment: Fragment() {
     }
 
     private fun visibilityLayoutRecords(isVisible: Boolean) {
-        val records: Int; val progress: Int
+        val records: Int;
+        val progress: Int
         if (isVisible) {
             records = View.VISIBLE
             progress = View.GONE

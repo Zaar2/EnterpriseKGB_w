@@ -1,13 +1,19 @@
 package com.zaar.meatkgb2_w.view.adapter
 
+import android.annotation.SuppressLint
+import android.content.res.Resources
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.zaar.meatkgb2_w.R
-import com.zaar.meatkgb2_w.data.entity.RecordUi
+import com.zaar.meatkgb2_w.model.entityUi.RecordUi
 
 open class RecordsRecViewAdapter(
     private val items: List<RecordUi>,
@@ -16,7 +22,7 @@ open class RecordsRecViewAdapter(
 
 
     interface ItemOnClickListener {
-        fun onItemClick(idRecord: Long)
+        fun onItemClick(record: RecordUi, isSelected: Boolean, )
     }
 
     class MyViewHolder(
@@ -27,8 +33,9 @@ open class RecordsRecViewAdapter(
         val hourProduced: TextView = itemView.findViewById(R.id.tv_time_produced_recView)
         val nameProduct: TextView = itemView.findViewById(R.id.tv_name_product_recView)
         val count: TextView = itemView.findViewById(R.id.tv_count_recView)
-        val checkBox: CheckBox? = itemView.findViewById(R.id.checkbox_idDB)
+//        val checkBox: CheckBox? = itemView.findViewById(R.id.checkbox_idDB)
         val me: TextView = itemView.findViewById(R.id.tv_me_recView)
+        var isSelected = false
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -49,12 +56,37 @@ open class RecordsRecViewAdapter(
                 nameProduct.text = recordUi.productName
                 count.text = recordUi.count.toString()
                 me.text = recordUi.me
+                isSelected = recordUi.isSelected
+                mSetBackground(itemView, isSelected)
 
-                itemView.setOnClickListener { _: View? ->
+                itemView.setOnClickListener {
+                    isSelected = !isSelected
+                    recordUi.isSelected = isSelected
+                    mSetBackground(it, isSelected)
+                    items.forEachIndexed { index, item ->
+                        if (index != position) {
+                            if (item.isSelected) {
+                                item.isSelected = false
+                                notifyItemChanged(index)
+                            }
+                        }
+                    }
                     itemOnClickListener.onItemClick(
-                        recordUi.id
+                        recordUi, isSelected
                     )
                 }
+            }
+        }
+    }
+
+    private fun mSetBackground(it:View, isSelected: Boolean) {
+        when (isSelected) {
+            true -> it.setBackgroundColor(it.context.getColor(R.color.white_with_alpha20))
+            false -> it.background = with(TypedValue()) {
+                it.context.theme.resolveAttribute(
+                    androidx.appcompat.R.attr.selectableItemBackground, this, true
+                )
+                ContextCompat.getDrawable(it.context, resourceId)
             }
         }
     }

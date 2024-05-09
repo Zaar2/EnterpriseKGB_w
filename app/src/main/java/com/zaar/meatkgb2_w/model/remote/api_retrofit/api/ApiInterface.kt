@@ -27,7 +27,7 @@ interface ApiInterface {
     @GET("record/{sessionID}")
     suspend fun getRecords(
         @Path(value = "sessionID") sessionID: String,
-        @Query(value = "idUser") idUser: Long,
+        @Query(value = "idWorker") idUser: Long,
         @Query(value = "enterpriseId") idEnterprise: String,
     ): Response<List<RecordApi>>
 

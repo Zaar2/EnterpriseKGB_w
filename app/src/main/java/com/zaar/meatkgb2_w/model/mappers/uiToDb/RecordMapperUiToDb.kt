@@ -1,15 +1,11 @@
 package com.zaar.meatkgb2_w.model.mappers.uiToDb
 
 import android.content.Context
-import com.zaar.meatkgb2_w.data.entity.RecordUi
+import com.zaar.meatkgb2_w.model.entityUi.RecordUi
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.RecordDb
 import com.zaar.meatkgb2_w.model.repository.LocalDBRepositoryImpl
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RecordMapperUiToDb(

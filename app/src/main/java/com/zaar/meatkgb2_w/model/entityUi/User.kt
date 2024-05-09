@@ -1,7 +1,4 @@
-package com.zaar.meatkgb2_w.data.entity
-
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
+package com.zaar.meatkgb2_w.model.entityUi
 
 data class User(
     var id: Long,

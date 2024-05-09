@@ -1,7 +1,7 @@
 package com.zaar.meatkgb2_w.model.mappers.dbToUi
 
 import android.content.Context
-import com.zaar.meatkgb2_w.data.entity.RecordUi
+import com.zaar.meatkgb2_w.model.entityUi.RecordUi
 import com.zaar.meatkgb2_w.model.local.api_room.entityDb.RecordDb
 import com.zaar.meatkgb2_w.model.repository.LocalDBRepositoryImpl
 import com.zaar.meatkgb2_w.utilities.view.UtilitiesTextFormat

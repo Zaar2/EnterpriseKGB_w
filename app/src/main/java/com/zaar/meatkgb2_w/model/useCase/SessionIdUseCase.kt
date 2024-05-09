@@ -11,13 +11,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.Date
 import kotlin.coroutines.ContinuationInterceptor
-import kotlin.coroutines.coroutineContext
-import kotlin.coroutines.suspendCoroutine
 
 class SessionIdUseCase(
     private val myContext: Context?

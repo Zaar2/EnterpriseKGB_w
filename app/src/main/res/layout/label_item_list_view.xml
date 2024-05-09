@@ -56,7 +56,8 @@
         android:id="@+id/tv_me_recView"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_weight="15"
+        android:maxLines="1"
         style="@style/subItem_myListView"
         android:gravity="center_vertical|start"
         />

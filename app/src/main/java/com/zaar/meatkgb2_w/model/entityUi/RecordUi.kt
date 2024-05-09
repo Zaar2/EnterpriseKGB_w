@@ -1,4 +1,4 @@
-package com.zaar.meatkgb2_w.data.entity
+package com.zaar.meatkgb2_w.model.entityUi
 
 data class RecordUi(
     var id: Long=-1L,
@@ -10,4 +10,5 @@ data class RecordUi(
     var enterpriseId: String = "",
     var shopId: Long = -1L,
     var me: String = "",
+    var isSelected: Boolean = false,
 )

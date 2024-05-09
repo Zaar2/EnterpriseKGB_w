@@ -1,7 +1,6 @@
 package com.zaar.meatkgb2_w.utilities.view
 
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -30,4 +29,15 @@ class UtilitiesTextFormat {
         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(servDate)?.let { date ->
             SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
         }
+
+    /**
+     * если значение числа меньше 10, то формат возвращенного строкового представления '00'
+     */
+    fun dateFormatIntToStr(num: Int): String {
+        return when (num) {
+            in 0..9 -> "0$num"
+            in -9 until 0 -> "-0" + num * -1
+            else -> num.toString()
+        }
+    }
 }
