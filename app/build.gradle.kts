@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.zaar.meatkgb2_w"
+    namespace = "com.zaar2.meatKGB_w"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.zaar.meatkgb2_w"
+        applicationId = "com.zaar2.meatKGB_w"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 9
+        versionName = "2.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
