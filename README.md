@@ -1,8 +1,8 @@
 The application allows the production worker to enter information about the products produced.
 
-Analytics, according to the data entered by all employees, look in another application - MeatKGB2.
+Analytics, according to the data entered by all employees, look in another application - MeatKGB2 (here this repository - EnterpriseKGB).
 
-Registration data (enterprise ID, username/password) are issued to the employee by the administrator who configures them using another the application MeatKGB2.
+Registration data (enterprise ID, username/password) are issued to the employee by the administrator who configures them using another the application MeatKGB2 (EnterpriseKGB).
 
 Access to application tools can be either from an individual device for each employee or workshop, or from a single device to the entire enterprise. In the first case, the enterprise ID and username/password will need to be entered once, in the case of group access, each employee will need to enter registration data each time before entering the data per shift.
 
