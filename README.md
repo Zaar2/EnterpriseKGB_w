@@ -1,6 +1,6 @@
-The application allows the production worker to enter information about the products produced.
+The application (https://appgallery.huawei.ru/app/C108137025) allows the production worker to enter information about the products produced.
 
-Analytics, according to the data entered by all employees, look in another application - MeatKGB2 (here this repository - EnterpriseKGB).
+Analytics, according to the data entered by all employees, look in another application - MeatKGB2 (https://appgallery.huawei.ru/app/C110568949), here this repository - EnterpriseKGB.
 
 Registration data (enterprise ID, username/password) are issued to the employee by the administrator who configures them using another the application MeatKGB2 (EnterpriseKGB).
 
